@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
     private MainPresenter mainPresenter;
@@ -56,7 +58,12 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void updateReview(String text) {
-        confirmButton.setText(text);
+    public void updateReview(ArrayList data) {
+        //어뎁터에서 notify 해준다. data를 받을 필요가 있나?
+        // 그런데 처음에 데이터를 어떻게 model에서 받아오는가?
+        //어떤 예제에서는 item을 Presenter에서 관리를 한다.
+        //model에서 데이터를 받아오는 함수를 만드는것도 나쁘지 않다.
+        //어뎁터를 만들때 처음부터 data를 받아서 adapter에 넣는것이 아닌 데이터가 준비가 되면 data를 넣는 addData 라는 메소드를
+        //adapter에 만드는 방법으로 문제를 해결한다.
     }
 }

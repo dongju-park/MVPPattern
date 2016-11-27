@@ -44,14 +44,12 @@ public class MainPresenterImpl implements MainPresenter {
     @Override
     public void saveReview(String text) {
         if(view != null) {
-            if(mainModel.saveReview(text)){
-                view.updateReview(text);
+                view.updateReview(mainModel.saveReview(text));
                 view.showToast("review is saved");
             }
             else {
                 view.showToast("review is not in order");
             }
-        }
     }
 
     @Override

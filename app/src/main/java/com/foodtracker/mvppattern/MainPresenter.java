@@ -27,6 +27,6 @@ public interface MainPresenter {
     interface View {
         void setConfirmText(String text);
         void showToast(String text);
-        void updateReview(String text);
+        void updateReview(ArrayList data);
     }
 }
