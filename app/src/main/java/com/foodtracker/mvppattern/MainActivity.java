@@ -1,10 +1,15 @@
 package com.foodtracker.mvppattern;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private Button confirmButton;
     private EditText editText;
 
+    private ReviewAdapter reviewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         mainPresenter = new MainPresenterImpl(this);
         mainPresenter.setView(this);
+
+        reviewAdapter = new ReviewAdapter(this);
 
         confirmButton = (Button) findViewById(R.id.confirmBtn);
         editText = (EditText) findViewById(R.id.editText);
@@ -65,5 +74,51 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         //model에서 데이터를 받아오는 함수를 만드는것도 나쁘지 않다.
         //어뎁터를 만들때 처음부터 data를 받아서 adapter에 넣는것이 아닌 데이터가 준비가 되면 data를 넣는 addData 라는 메소드를
         //adapter에 만드는 방법으로 문제를 해결한다.
+
+        reviewAdapter.addData(data);
+        reviewAdapter.notifyDataSetChanged();
+    }
+
+    class ReviewAdapter extends RecyclerView.Adapter {
+
+        Context context;
+        ArrayList<String> data = new ArrayList();
+
+        ReviewAdapter(Context context) {
+            this.context = context;
+        }
+
+        public void addData(ArrayList data){
+            data.addAll(data);
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View item = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.item_review, parent, false);
+            return new ListItemViewHolder(item);
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ListItemViewHolder view = (ListItemViewHolder)holder;
+            view.textView.setText(data.get(0));
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+    }
+
+    public final static class ListItemViewHolder extends RecyclerView.ViewHolder{
+
+        TextView textView;
+
+        public ListItemViewHolder(View itemView) {
+            super(itemView);
+
+            textView = (TextView) itemView.findViewById(R.id.textView);
+        }
     }
 }

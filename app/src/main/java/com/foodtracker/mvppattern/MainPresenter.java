@@ -19,14 +19,19 @@ public interface MainPresenter {
      그려면 음.. 큰 기능당 Presenter interface를 만들어서 재 사용이 가능할 것 같다. 반드시 구현해야 하는 메소드들이니
      다음에 기능을 추가하거나 확장할 때 사용, 수정을 하면 될것 같다.
     */
-    void onConfirm();
+
     void saveReview(String text);
-    void updateReview(ArrayList data);
 
     //View에게 알려주기 위한 interface 선언
     interface View {
-        void setConfirmText(String text);
         void showToast(String text);
         void updateReview(ArrayList data);
+    }
+
+    //비동기 처리시에 어떻게 할기 생각하다가 이런 방법을 생각해봄...
+    //비동기 처리가 끝나면 메인쓰레드에서는 결과를 처리하고 success 혹은 fail 함수를 반환하게 한다.
+    interface networkCallbackListener {
+        void success();
+        void fail();
     }
 }

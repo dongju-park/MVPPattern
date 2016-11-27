@@ -2,8 +2,6 @@ package com.foodtracker.mvppattern;
 
 import android.app.Activity;
 
-import java.util.ArrayList;
-
 /**
  * Created by parkdongju on 2016-11-26.
  */
@@ -34,27 +32,26 @@ public class MainPresenterImpl implements MainPresenter {
     * */
 
     @Override
-    public void onConfirm() {
-        if(view != null) {
-            view.setConfirmText(mainModel.getClickText());
-            view.showToast("button is clicked");
-        }
-    }
-
-    @Override
     public void saveReview(String text) {
         if(view != null) {
-                view.updateReview(mainModel.saveReview(text));
-                view.showToast("review is saved");
-            }
-            else {
-                view.showToast("review is not in order");
-            }
-    }
+            //networkCallbackListener 라는 인터페이스를 만들어서 네트워크의 결과가 필요한 메소드들은 이 interface를 갖는다.
+            //네트워크의 결과로 해당 결과가 오면 그 다음 작업을 수행하게 한다.
+            //결과적으로는 retrofit을 사용하는 모든 함수가 이런 형식을 띄지 않을까 생각한다...
+            mainModel.saveReview(text, new networkCallbackListener() {
+                @Override
+                public void success() {
+                    //비동기 처리시에 이 방법을 사용한다. 거의 대부분 이렇게 사용하게 될 듯 하다.
+                    view.updateReview(mainModel.getData()); //리뷰가 작성이 되면 view에 리뷰가 작성이 됬으니 갱신하라는 함수를 호출
+                    view.showToast("review is saved"); // 토스트 메세지 송출
+                }
 
-    @Override
-    public void updateReview(ArrayList data) {
-        mainModel.updateReview(data);
+                @Override
+                public void fail() {
+                    //fail 시에 처리
+                    view.showToast("review is not saved");
+                }
+            });
+        }
     }
 
 }
