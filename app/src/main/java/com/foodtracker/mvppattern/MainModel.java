@@ -17,6 +17,7 @@ public class MainModel {
     * 리뷰에 관련된 모델이라면... 리뷰데이터들을 관리하고 한다.
     * */
 
+    //간단한 ReviewData
     ArrayList<String> reviewData = new ArrayList<>();
 
     //모델에서 애초에 이렇게 listener를 받아야 한다. 모델을 설계할때 주의 할점이다.
